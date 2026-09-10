@@ -4,46 +4,301 @@
  */
 
 // ==================== 班车时刻表数据 ====================
-const schedules = {
-  outbound: {
-    title: "泰瑞府 → 道远楼东",
-    detail: "从泰瑞府发车",
-    weekday: [
-      "07:05", "07:35", "08:05", "08:20", "08:35", "08:55", "09:05", "09:35",
-      "10:05", "10:35", "11:05", "11:35", "12:05", "12:35", "12:55", "13:05",
-      "13:15", "13:35", "13:50", "14:05", "14:35", "15:05", "15:35", "16:05",
-      "16:35", "17:05", "17:35", "17:55", "18:05", "18:20", "18:35", "18:45",
-      "19:05", "19:35", "20:05", "20:35", "21:05", "21:35", "22:05", "22:35"
+const defaultSchedules = {
+  "outbound": {
+    "title": "泰瑞府 → 道远楼东",
+    "detail": "从泰瑞府发车",
+    "weekday": [
+      "07:05",
+      "07:35",
+      "08:05",
+      "08:20",
+      "08:35",
+      "08:55",
+      "09:05",
+      "09:35",
+      "10:05",
+      "10:35",
+      "11:05",
+      "11:35",
+      "12:05",
+      "12:35",
+      "12:55",
+      "13:05",
+      "13:15",
+      "13:35",
+      "13:50",
+      "14:05",
+      "14:35",
+      "15:05",
+      "15:35",
+      "16:05",
+      "16:35",
+      "17:05",
+      "17:35",
+      "17:55",
+      "18:05",
+      "18:20",
+      "18:35",
+      "18:45",
+      "19:05",
+      "19:35",
+      "20:05",
+      "20:35",
+      "21:05",
+      "21:35",
+      "22:05",
+      "22:35"
     ],
-    weekend: [
-      "07:05", "07:35", "08:35", "09:35", "10:35", "11:35", "12:35", "13:35",
-      "14:35", "15:35", "16:35", "17:35", "18:35", "19:35", "20:35", "21:35", "22:35"
+    "weekend": [
+      "07:05",
+      "07:35",
+      "08:35",
+      "09:35",
+      "10:35",
+      "11:35",
+      "12:35",
+      "13:35",
+      "14:35",
+      "15:35",
+      "16:35",
+      "17:35",
+      "18:35",
+      "19:35",
+      "20:35",
+      "21:35",
+      "22:35"
     ]
   },
-  return: {
-    title: "道远楼东 → 泰瑞府",
-    detail: "从道远楼东发车（经停张灵斌楼/综合教学楼）",
-    secondaryLabel: "张灵斌楼到站",
-    weekday: [
-      ["07:58", "07:55"], ["08:28", "08:25"], ["08:58", "08:55"], ["09:28", "09:25"],
-      ["09:58", "09:55"], ["10:28", "10:25"], ["10:58", "10:55"], ["11:28", "11:25"],
-      ["11:58", "11:55"], ["12:13", "12:10"], ["12:28", "12:25"], ["12:43", "12:40"],
-      ["12:58", "12:55"], ["13:28", "13:25"], ["13:58", "13:55"], ["14:28", "14:25"],
-      ["14:58", "14:55"], ["15:28", "15:25"], ["15:58", "15:55"], ["16:28", "16:25"],
-      ["16:58", "16:55"], ["17:13", "17:10"], ["17:28", "17:25"], ["17:43", "17:40"],
-      ["17:58", "17:55"], ["18:28", "18:25"], ["18:58", "18:55"], ["19:28", "19:25"],
-      ["19:58", "19:55"], ["20:28", "20:25"], ["20:58", "20:55"], ["21:13", "21:10"],
-      ["21:28", "21:25"], ["21:43", "21:40"], ["21:58", "21:55"], ["22:28", "22:25"],
-      ["22:58", "22:55"]
+  "return": {
+    "title": "道远楼东 → 泰瑞府",
+    "detail": "从道远楼东发车（经停张灵斌楼/综合教学楼）",
+    "secondaryLabel": "张灵斌楼到站",
+    "weekday": [
+      [
+        "07:58",
+        "07:55"
+      ],
+      [
+        "08:28",
+        "08:25"
+      ],
+      [
+        "08:58",
+        "08:55"
+      ],
+      [
+        "09:28",
+        "09:25"
+      ],
+      [
+        "09:58",
+        "09:55"
+      ],
+      [
+        "10:28",
+        "10:25"
+      ],
+      [
+        "10:58",
+        "10:55"
+      ],
+      [
+        "11:28",
+        "11:25"
+      ],
+      [
+        "11:58",
+        "11:55"
+      ],
+      [
+        "12:13",
+        "12:10"
+      ],
+      [
+        "12:28",
+        "12:25"
+      ],
+      [
+        "12:43",
+        "12:40"
+      ],
+      [
+        "12:58",
+        "12:55"
+      ],
+      [
+        "13:28",
+        "13:25"
+      ],
+      [
+        "13:58",
+        "13:55"
+      ],
+      [
+        "14:28",
+        "14:25"
+      ],
+      [
+        "14:58",
+        "14:55"
+      ],
+      [
+        "15:28",
+        "15:25"
+      ],
+      [
+        "15:58",
+        "15:55"
+      ],
+      [
+        "16:28",
+        "16:25"
+      ],
+      [
+        "16:58",
+        "16:55"
+      ],
+      [
+        "17:13",
+        "17:10"
+      ],
+      [
+        "17:28",
+        "17:25"
+      ],
+      [
+        "17:43",
+        "17:40"
+      ],
+      [
+        "17:58",
+        "17:55"
+      ],
+      [
+        "18:28",
+        "18:25"
+      ],
+      [
+        "18:58",
+        "18:55"
+      ],
+      [
+        "19:28",
+        "19:25"
+      ],
+      [
+        "19:58",
+        "19:55"
+      ],
+      [
+        "20:28",
+        "20:25"
+      ],
+      [
+        "20:58",
+        "20:55"
+      ],
+      [
+        "21:13",
+        "21:10"
+      ],
+      [
+        "21:28",
+        "21:25"
+      ],
+      [
+        "21:43",
+        "21:40"
+      ],
+      [
+        "21:58",
+        "21:55"
+      ],
+      [
+        "22:28",
+        "22:25"
+      ],
+      [
+        "22:58",
+        "22:55"
+      ]
     ],
-    weekend: [
-      ["07:57", "07:55"], ["08:57", "08:55"], ["09:57", "09:55"], ["10:57", "10:55"],
-      ["11:57", "11:55"], ["12:57", "12:55"], ["13:57", "13:55"], ["14:57", "14:55"],
-      ["15:57", "15:55"], ["16:57", "16:55"], ["17:57", "17:55"], ["18:57", "18:55"],
-      ["19:57", "19:55"], ["20:57", "20:55"], ["21:57", "21:55"], ["22:57", "22:55"]
+    "weekend": [
+      [
+        "07:57",
+        "07:55"
+      ],
+      [
+        "08:57",
+        "08:55"
+      ],
+      [
+        "09:57",
+        "09:55"
+      ],
+      [
+        "10:57",
+        "10:55"
+      ],
+      [
+        "11:57",
+        "11:55"
+      ],
+      [
+        "12:57",
+        "12:55"
+      ],
+      [
+        "13:57",
+        "13:55"
+      ],
+      [
+        "14:57",
+        "14:55"
+      ],
+      [
+        "15:57",
+        "15:55"
+      ],
+      [
+        "16:57",
+        "16:55"
+      ],
+      [
+        "17:57",
+        "17:55"
+      ],
+      [
+        "18:57",
+        "18:55"
+      ],
+      [
+        "19:57",
+        "19:55"
+      ],
+      [
+        "20:57",
+        "20:55"
+      ],
+      [
+        "21:57",
+        "21:55"
+      ],
+      [
+        "22:57",
+        "22:55"
+      ]
     ]
   }
 };
+
+function getActiveSchedules() {
+  if (typeof window !== "undefined" && window.SHUTTLE_CONFIG && window.SHUTTLE_CONFIG.schedules) {
+    return window.SHUTTLE_CONFIG.schedules;
+  }
+  return defaultSchedules;
+}
 
 const returnStops = {
   daoyuan: { label: "道远楼东", offset: 0 },
@@ -55,23 +310,7 @@ const holidayDates = new Set([
   "2026-09-25", "2026-10-01", "2026-10-02", "2026-10-03",
   "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07"
 ]);
-// 临时排班覆盖：优先级最高，可用于周末临时按工作日运行，或工作日临时按周末运行。
-// 只需增加或删除一行日期；日期格式必须为 YYYY-MM-DD。
-const temporaryScheduleOverrides = {
-  "2026-09-20": { type: "weekday", label: "临时启用工作日服务时刻表" }
-  // 示例："2026-10-10": { type: "weekday", label: "临时启用工作日服务时刻表" },
-  // 示例："2026-10-12": { type: "weekend", label: "临时启用周末服务时刻表" }
-};
-const scheduleOverrideStorageKey = "shuttle_schedule_overrides";
-
-function getSavedScheduleOverrides() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(scheduleOverrideStorageKey) || "{}");
-    return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
-  } catch {
-    return {};
-  }
-}
+const specialWorkdayDates = new Set(["2026-09-20"]);
 
 // ==================== 辅助日期与计算函数 ====================
 function isWeekend(date) {
@@ -86,15 +325,20 @@ function dateKey(date) {
 function getScheduleTypeInfo(date) {
   const key = dateKey(date);
   const weekend = isWeekend(date);
-  // 后台保存的设置优先于代码中的预设，方便临时调整后即时生效。
-  const temporaryOverride = getSavedScheduleOverrides()[key] || temporaryScheduleOverrides[key];
 
-  // 临时通知应覆盖法定节假日、调休和星期几的默认判断。
-  if (temporaryOverride) {
-    return {
-      type: temporaryOverride.type,
-      desc: temporaryOverride.label || (temporaryOverride.type === "weekday" ? "工作日服务时刻表" : "周末及法定节假日时刻表")
-    };
+  // 1. 优先读取动态配置中的临时调休覆盖规则 (由 shuttle_manager 管理软件一键指定)
+  if (typeof window !== "undefined" && window.SHUTTLE_CONFIG && window.SHUTTLE_CONFIG.overrides && window.SHUTTLE_CONFIG.overrides[key]) {
+    const overrideType = window.SHUTTLE_CONFIG.overrides[key];
+    if (overrideType === "weekday") {
+      return { type: "weekday", desc: "特殊调整 · 执行工作日时刻表" };
+    }
+    if (overrideType === "weekend") {
+      return { type: "weekend", desc: "特殊调整 · 执行周末及节假日时刻表" };
+    }
+  }
+
+  if (specialWorkdayDates.has(key)) {
+    return { type: "weekday", desc: "工作日服务时刻表" };
   }
   if (holidayDates.has(key)) {
     return { type: "weekend", desc: "周末及法定节假日时刻表" };
@@ -181,10 +425,73 @@ function updateClock(now = new Date()) {
 }
 
 // ==================== 渲染实时发车视图 ====================
+
+function updateAnnouncementBar() {
+  const bar = document.querySelector("#announcement-bar");
+  const titleEl = document.querySelector("#announcement-title");
+  const descEl = document.querySelector("#announcement-desc");
+  const drawerEl = document.querySelector("#announcement-drawer");
+  const headerEl = document.querySelector("#announcement-header");
+
+  if (!bar || !titleEl || !descEl) return;
+
+  const now = new Date();
+  const key = dateKey(now);
+
+  let activeTitle = "";
+  let activeDesc = "";
+
+  // 1. 如果更改了时间表（临时调休覆盖）
+  if (typeof window !== "undefined" && window.SHUTTLE_CONFIG && window.SHUTTLE_CONFIG.overrides && window.SHUTTLE_CONFIG.overrides[key]) {
+    const overrideType = window.SHUTTLE_CONFIG.overrides[key];
+    const weekNames = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+    const weekStr = weekNames[now.getDay()];
+
+    if (overrideType === "weekday") {
+      activeTitle = "时刻表调整告示：今日执行工作日时刻表";
+      activeDesc = `根据运营调度安排，今日（${weekStr}）临时由周末时刻表调整为工作日服务时刻表，全天按工作日班次发车，请按工作日时间候车。`;
+    } else if (overrideType === "weekend") {
+      activeTitle = "时刻表调整告示：今日执行周末及节假日时刻表";
+      activeDesc = `根据运营调度安排，今日（${weekStr}）临时由工作日时刻表调整为周末及法定节假日时刻表，全天按周末班次发车。`;
+    }
+  }
+
+  // 2. 如果后台设置了公告广播
+  if (!activeTitle && typeof window !== "undefined" && window.SHUTTLE_CONFIG && window.SHUTTLE_CONFIG.notice && window.SHUTTLE_CONFIG.notice.active && window.SHUTTLE_CONFIG.notice.text) {
+    activeTitle = "班车运营重要告示";
+    activeDesc = window.SHUTTLE_CONFIG.notice.text.trim();
+  }
+
+  // 3. 如果自定义覆盖了班次时刻
+  if (!activeTitle && typeof window !== "undefined" && window.SHUTTLE_CONFIG && window.SHUTTLE_CONFIG.schedules) {
+    activeTitle = "班车时刻表调整告示：班次已更新";
+    activeDesc = "当前班车发车时刻表已由调度中心进行最新调整，请对照下方时刻表确认发车时间。";
+  }
+
+  if (activeTitle) {
+    bar.hidden = false;
+    titleEl.textContent = activeTitle;
+    descEl.textContent = activeDesc;
+
+    if (!headerEl.__boundClick) {
+      headerEl.__boundClick = true;
+      headerEl.addEventListener("click", () => {
+        const isExpanded = bar.classList.toggle("expanded");
+        headerEl.setAttribute("aria-expanded", String(isExpanded));
+        if (drawerEl) drawerEl.hidden = !isExpanded;
+      });
+    }
+  } else {
+    bar.hidden = true;
+  }
+}
+
 function render() {
   const now = new Date();
+
+  updateAnnouncementBar();
   const dayType = getScheduleType(now);
-  const route = schedules[selectedDirection];
+  const route = getActiveSchedules()[selectedDirection];
   const returnStop = returnStops[selectedReturnStop];
 
   const allBuses = route[dayType].map((entry) => {
@@ -322,7 +629,7 @@ function render() {
 // ==================== 渲染班次查询视图 ====================
 function getScheduleRows() {
   const now = new Date();
-  const route = schedules[selectedDirection];
+  const route = getActiveSchedules()[selectedDirection];
   const returnStop = returnStops[selectedReturnStop];
   const dayType = selectedQueryScheduleType === "weekday" ? "weekday" : "weekend";
   return route[dayType].map((entry) => {
@@ -587,7 +894,7 @@ document.querySelectorAll(".direction-button").forEach((button) => {
     });
     render();
     renderQuery();
-    showToast(`已切换方向：${schedules[selectedDirection].title}`);
+    showToast(`已切换方向：${getActiveSchedules()[selectedDirection].title}`);
   });
 });
 
