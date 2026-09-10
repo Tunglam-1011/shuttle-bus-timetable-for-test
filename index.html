@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#7277dc">
+  <title>泰瑞府班车助手</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <!-- 顶部状态卡片 -->
+    <header class="hero">
+      <div class="hero-left">
+        <p class="eyebrow">SHUTTLE BUS TIMETABLE</p>
+        <h1>班车助手</h1>
+        <div class="clock-badge" id="current-time" aria-live="polite">加载中...</div>
+      </div>
+      <div class="hero-right">
+        <button id="theme-toggle" class="header-icon-btn" type="button" title="切换深色/浅色模式" aria-label="切换主题">
+          <svg class="sun-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+
+      </div>
+    </header>
+
+    <!-- 1. 顶部主标签页 (按图片排序) -->
+    <nav class="page-tabs" role="tablist">
+      <button class="page-tab active" data-page="live" role="tab" aria-selected="true">实时班次</button>
+      <button class="page-tab" data-page="search" role="tab" aria-selected="false">班次查询</button>
+    </nav>
+
+    <!-- 2. 方向切换与上车站选择控制面板 (按图片排序) -->
+    <section class="control-panel">
+      <div class="direction-switcher">
+        <button class="direction-button active" type="button" data-direction="outbound" aria-pressed="true">泰瑞府 → 道远楼东</button>
+        <button class="direction-button" type="button" data-direction="return" aria-pressed="false">道远楼东 → 泰瑞府</button>
+      </div>
+
+      <!-- 返程上车站选择器 -->
+      <div class="boarding-stop-picker" id="boarding-stop-picker" hidden>
+        <p class="picker-label">我的上车站</p>
+        <div class="stop-options">
+          <button class="stop-button" type="button" data-stop="daoyuan" aria-pressed="false">
+            <span class="stop-name">道远楼东</span>
+            <span class="stop-tag">始发站</span>
+          </button>
+          <button class="stop-button active" type="button" data-stop="zhang" aria-pressed="true">
+            <span class="stop-name">张灵斌楼</span>
+          </button>
+          <button class="stop-button" type="button" data-stop="teaching" aria-pressed="false">
+            <span class="stop-name">综合教学楼</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 视图一：实时班次 -->
+    <section class="view active" id="live-view">
+      <section class="route-summary">
+        <div class="summary-meta">
+          <span class="service-day-tag" id="service-day">--</span>
+          <span class="remaining-badge" id="live-remaining-count">今日剩余 -- 班</span>
+        </div>
+        <h2 id="route-title">泰瑞府 → 道远楼东</h2>
+        <p id="route-detail">从泰瑞府发车</p>
+      </section>
+
+      <section class="departures">
+        <div class="section-heading">
+          <h2>即将发车班次</h2>
+        </div>
+        <div class="departure-list" id="departure-list" aria-live="polite">
+          <!-- JS 动态注入班次卡片 -->
+        </div>
+      </section>
+    </section>
+
+    <!-- 4. 视图二：班次查询 (精简整合版) -->
+    <section class="view" id="search-view" hidden>
+      <!-- 极简整合工具栏 -->
+      <div class="search-toolbar">
+        <!-- 工作日 / 周末及节假日 胶囊按键切换 -->
+        <div class="schedule-pill-group" role="group" aria-label="选择时刻表类型">
+          <button class="pill-btn active" id="pill-weekday" type="button" data-type="weekday">工作日</button>
+          <button class="pill-btn" id="pill-weekend" type="button" data-type="weekend">周末及节假日</button>
+        </div>
+
+        <!-- 中间：轻量时段选择框 (全天/各时段功能保留) -->
+        <div class="hour-mini-picker">
+          <select id="hour-select" autocomplete="off" aria-label="选择时段"></select>
+        </div>
+
+        <!-- 右侧：快捷操作组 (定位最近班次) -->
+        <div class="toolbar-actions">
+          <button id="btn-quick-next" class="action-pill-btn" type="button" title="定位至距离当前时间最近的发车班次">
+            定位最近班次
+          </button>
+        </div>
+      </div>
+
+      <!-- 去程预计车程提示 -->
+      <div class="query-route-tip" id="query-route-tip" hidden>
+        <span>预计到校车程为 10 分钟</span>
+      </div>
+
+      <!-- 保留隐藏原生控件供逻辑调用兼容 -->
+      <select id="schedule-type-select" autocomplete="off" style="display:none;" aria-hidden="true">
+        <option value="weekday">工作日服务时刻表</option>
+        <option value="weekend">周末及法定节假日时刻表</option>
+      </select>
+      
+      <!-- 日历方格时刻表 -->
+      <div class="query-result" id="query-result" aria-live="polite">
+        <!-- JS 动态注入方格 -->
+      </div>
+    </section>
+
+    <!-- 底部时刻说明 -->
+    <p class="schedule-note">
+      工作日（周一至周五）使用工作日服务时刻表；周末及法定节假日使用周末服务时刻表。临时调整以当日页面显示的服务时刻表为准。到站时间仅供参考，请以现场情况为准。
+    </p>
+  </main>
+
+  <!-- Toast 提示容器 -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
