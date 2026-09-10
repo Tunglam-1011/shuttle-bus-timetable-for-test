@@ -5,9 +5,7 @@ window.SHUTTLE_CONFIG = {
     "active": true,
     "text": "test at 1925"
   },
-  "overrides": {
-    "2026-09-10": "weekend"
-  },
+  "overrides": {},
   "schedules": {
     "outbound": {
       "title": "泰瑞府 → 道远楼东",
