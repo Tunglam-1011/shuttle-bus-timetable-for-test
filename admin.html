@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#7277dc">
+  <title>班车排班后台</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell admin-shell">
+    <header class="hero admin-hero">
+      <div class="hero-left">
+        <p class="eyebrow">SHUTTLE SCHEDULE ADMIN</p>
+        <h1>排班后台</h1>
+        <p class="admin-subtitle">为指定日期一键切换实时班次所使用的模板</p>
+      </div>
+      <a class="admin-back-link" href="index.html">返回班车助手</a>
+    </header>
+
+    <section class="admin-card" aria-labelledby="override-title">
+      <div>
+        <p class="admin-kicker">临时排班</p>
+        <h2 id="override-title">替换当日时刻表</h2>
+        <p>保存后，打开同一浏览器内班车助手的用户会在下一次刷新时看到新的实时班次。</p>
+      </div>
+      <form id="override-form" class="override-form">
+        <label>
+          生效日期
+          <input id="override-date" type="date" required>
+        </label>
+        <label>
+          使用模板
+          <select id="override-type">
+            <option value="weekday">工作日时刻表</option>
+            <option value="weekend">周末及节假日时刻表</option>
+          </select>
+        </label>
+        <label>
+          页面提示（可选）
+          <input id="override-label" type="text" maxlength="30" placeholder="例如：临时按工作日运行">
+        </label>
+        <button class="admin-save-btn" type="submit">保存并立即生效</button>
+      </form>
+    </section>
+
+    <section class="admin-card" aria-labelledby="active-overrides-title">
+      <div class="admin-list-heading">
+        <div>
+          <p class="admin-kicker">已设置</p>
+          <h2 id="active-overrides-title">临时排班列表</h2>
+        </div>
+        <button id="clear-expired" class="admin-text-btn" type="button">清除已过期</button>
+      </div>
+      <div id="override-list" class="override-list" aria-live="polite"></div>
+    </section>
+
+    <p class="schedule-note">此简易后台将设置保存于当前浏览器。若班车助手部署给多位用户使用，需要将存储接到统一服务器，才能同步更新。</p>
+  </main>
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  <script src="admin.js"></script>
+</body>
+</html>
