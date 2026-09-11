@@ -2,8 +2,8 @@
 // 此文件由 Shuttle Manager 通过 GitHub API 远程同步与自动写入
 window.SHUTTLE_CONFIG = {
   "notice": {
-    "active": false,
-    "text": ""
+    "active": true,
+    "text": "TEST AT 9/11 9:04"
   },
   "overrides": {
     "2026-09-11": "weekend"
