@@ -1,0 +1,12 @@
+{
+  "updatedAt": "2026-09-11T16:06:45.620Z",
+  "overrides": {
+    "2026-09-12": {
+      "type": "weekday",
+      "notice": {
+        "subtitle": "TEST AT 9/12"
+      },
+      "updatedAt": "2026-09-11T16:06:45.620Z"
+    }
+  }
+}
