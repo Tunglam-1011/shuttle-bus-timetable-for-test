@@ -2,10 +2,12 @@
 // 此文件由 Shuttle Manager 通过 GitHub API 远程同步与自动写入
 window.SHUTTLE_CONFIG = {
   "notice": {
-    "active": true,
-    "text": "test at 1925"
+    "active": false,
+    "text": ""
   },
-  "overrides": {},
+  "overrides": {
+    "2026-09-11": "weekend"
+  },
   "schedules": {
     "outbound": {
       "title": "泰瑞府 → 道远楼东",
