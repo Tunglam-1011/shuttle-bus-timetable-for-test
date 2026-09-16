@@ -52,8 +52,9 @@ const returnStops = {
 };
 
 const holidayDates = new Set([
-  "2026-09-25", "2026-10-01", "2026-10-02", "2026-10-03",
-  "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07"
+  "2026-09-16", "2026-09-25", "2026-10-01", "2026-10-02",
+  "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06",
+  "2026-10-07"
 ]);
 const specialWorkdayDates = new Set(["2026-09-20"]);
 
@@ -667,3 +668,84 @@ if (document.readyState === "loading") {
 }
 
 setInterval(updateApp, 1000);
+
+// ===== SHUTTLE_ADMIN_NOTICE_BEGIN（排班后台自动维护，请勿手改） =====
+var SHUTTLE_NOTICE_SUBTITLES = {"2026-09-16":"TEST AT 17:56"};
+(function () {
+  try {
+    var STYLE_ID = "shuttle-admin-notice-style";
+    var BANNER_ID = "shuttle-admin-notice";
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function todayKey() {
+      var n = new Date();
+      return n.getFullYear() + "-" + pad(n.getMonth() + 1) + "-" + pad(n.getDate());
+    }
+    function detectType(key) {
+      try {
+        if (typeof specialWorkdayDates !== "undefined" && specialWorkdayDates.has && specialWorkdayDates.has(key)) return "工作日";
+        if (typeof holidayDates !== "undefined" && holidayDates.has && holidayDates.has(key)) return "周末";
+      } catch (e) { /* 集合不存在时忽略 */ }
+      return null;
+    }
+    function ensureStyle() {
+      if (document.getElementById(STYLE_ID)) return;
+      var style = document.createElement("style");
+      style.id = STYLE_ID;
+      style.textContent = ".shuttle-admin-notice{margin:0 0 14px;border-radius:var(--radius-md,14px);background:var(--amber-bg,#fffbeb);border:1px solid rgba(217,119,6,.28);box-shadow:var(--shadow-sm,0 2px 8px rgba(0,0,0,.08));overflow:hidden}" +
+        ".shuttle-admin-notice__row{width:100%;display:flex;align-items:center;gap:8px;padding:11px 14px;background:transparent;border:0;font:inherit;text-align:left;cursor:pointer;color:inherit}" +
+        ".shuttle-admin-notice__row:disabled{cursor:default}" +
+        ".shuttle-admin-notice__row:not(:disabled):hover{background:rgba(217,119,6,.08)}" +
+        ".shuttle-admin-notice__icon{flex:0 0 auto;font-size:.95rem;line-height:1}" +
+        ".shuttle-admin-notice__title{flex:1;min-width:0;color:var(--amber,#d97706);font-size:.88rem;font-weight:900;word-break:break-word}" +
+        ".shuttle-admin-notice__chevron{flex:0 0 auto;color:var(--amber,#d97706);font-size:.8rem;transition:transform .2s ease}" +
+        ".shuttle-admin-notice.is-expanded .shuttle-admin-notice__chevron{transform:rotate(180deg)}" +
+        ".shuttle-admin-notice__sub{margin:0;padding:0 14px 11px 37px;color:var(--text-secondary,#52536e);font-size:.8rem;font-weight:600;line-height:1.5;word-break:break-word}";
+      document.head.appendChild(style);
+    }
+    function render() {
+      var now = new Date();
+      var key = todayKey();
+      var type = detectType(key);
+      var subtitle = SHUTTLE_NOTICE_SUBTITLES[key] || "";
+      var host = document.querySelector(".app-shell") || document.body;
+      var banner = document.getElementById(BANNER_ID);
+      if (!type) {
+        if (banner) banner.remove();
+        return;
+      }
+      ensureStyle();
+      if (!banner) {
+        banner = document.createElement("section");
+        banner.id = BANNER_ID;
+        banner.className = "shuttle-admin-notice";
+        banner.innerHTML = '<button type="button" class="shuttle-admin-notice__row" aria-expanded="false">' +
+          '<span class="shuttle-admin-notice__icon" aria-hidden="true">\ud83d\udce2</span>' +
+          '<span class="shuttle-admin-notice__title"></span>' +
+          '<span class="shuttle-admin-notice__chevron" aria-hidden="true"></span></button>' +
+          '<p class="shuttle-admin-notice__sub" hidden></p>';
+        banner.querySelector(".shuttle-admin-notice__row").addEventListener("click", function () {
+          var sub = banner.querySelector(".shuttle-admin-notice__sub");
+          if (!sub.textContent) return;
+          var expanded = banner.classList.toggle("is-expanded");
+          sub.hidden = !expanded;
+          banner.querySelector(".shuttle-admin-notice__row").setAttribute("aria-expanded", String(expanded));
+        });
+        if (host.firstChild) host.insertBefore(banner, host.firstChild);
+        else host.appendChild(banner);
+      }
+      var monthDay = (now.getMonth() + 1) + "月" + now.getDate() + "日";
+      banner.querySelector(".shuttle-admin-notice__title").textContent = "今日（" + monthDay + "）调整为" + type + "服务时刻表";
+      var subEl = banner.querySelector(".shuttle-admin-notice__sub");
+      var row = banner.querySelector(".shuttle-admin-notice__row");
+      subEl.textContent = subtitle || "";
+      subEl.hidden = true;
+      banner.classList.remove("is-expanded");
+      row.disabled = !subtitle;
+      row.setAttribute("aria-expanded", "false");
+      banner.querySelector(".shuttle-admin-notice__chevron").textContent = subtitle ? "\u25be" : "";
+    }
+    render();
+    setInterval(render, 60000);
+  } catch (e) { /* 静默降级，不影响网页其他功能 */ }
+})();
+// ===== SHUTTLE_ADMIN_NOTICE_END =====
