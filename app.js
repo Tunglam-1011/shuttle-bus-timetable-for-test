@@ -52,9 +52,9 @@ const returnStops = {
 };
 
 const holidayDates = new Set([
-  "2026-09-16", "2026-09-25", "2026-10-01", "2026-10-02",
-  "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06",
-  "2026-10-07"
+  "2026-09-16", "2026-09-17", "2026-09-25", "2026-10-01",
+  "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05",
+  "2026-10-06", "2026-10-07"
 ]);
 const specialWorkdayDates = new Set(["2026-09-20"]);
 
@@ -670,7 +670,7 @@ if (document.readyState === "loading") {
 setInterval(updateApp, 1000);
 
 // ===== SHUTTLE_ADMIN_NOTICE_BEGIN（排班后台自动维护，请勿手改） =====
-var SHUTTLE_NOTICE_SUBTITLES = {"2026-09-16":"TEST AT 17:56"};
+var SHUTTLE_NOTICE_SUBTITLES = {"2026-09-16":"TEST AT 17:56","2026-09-17":"Test at 9:30 9/17"};
 (function () {
   try {
     var STYLE_ID = "shuttle-admin-notice-style";
