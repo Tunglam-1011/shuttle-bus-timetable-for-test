@@ -52,11 +52,10 @@ const returnStops = {
 };
 
 const holidayDates = new Set([
-  "2026-09-17", "2026-09-25", "2026-10-01", "2026-10-02",
-  "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06",
-  "2026-10-07"
+  "2026-09-25", "2026-10-01", "2026-10-02", "2026-10-03",
+  "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07"
 ]);
-const specialWorkdayDates = new Set(["2026-09-20"]);
+const specialWorkdayDates = new Set(["2026-09-17", "2026-09-20"]);
 
 // ==================== 辅助日期与计算函数 ====================
 function isWeekend(date) {
@@ -670,7 +669,7 @@ if (document.readyState === "loading") {
 setInterval(updateApp, 1000);
 
 // ===== SHUTTLE_ADMIN_NOTICE_BEGIN（排班后台自动维护，请勿手改） =====
-var SHUTTLE_NOTICE_SUBTITLES = {"2026-09-17":"Test at 1005"};
+var SHUTTLE_NOTICE_SUBTITLES = {};
 (function () {
   try {
     var STYLE_ID = "shuttle-admin-notice-style";
@@ -746,6 +745,43 @@ var SHUTTLE_NOTICE_SUBTITLES = {"2026-09-17":"Test at 1005"};
     }
     render();
     setInterval(render, 60000);
+    var dynBase = "";
+    try {
+      var scriptEl = document.currentScript;
+      if (scriptEl && scriptEl.src) dynBase = scriptEl.src.substring(0, scriptEl.src.lastIndexOf("/") + 1);
+    } catch (e) { }
+    function applyDynamic(data) {
+      try {
+        if (!data || typeof data !== "object") return;
+        if (typeof specialWorkdayDates !== "undefined" && specialWorkdayDates.clear && Array.isArray(data.workday)) {
+          specialWorkdayDates.clear();
+          data.workday.forEach(function (d) { specialWorkdayDates.add(d); });
+        }
+        if (typeof holidayDates !== "undefined" && holidayDates.clear && Array.isArray(data.holiday)) {
+          holidayDates.clear();
+          data.holiday.forEach(function (d) { holidayDates.add(d); });
+        }
+        if (data.notices && typeof data.notices === "object" && !Array.isArray(data.notices)) {
+          SHUTTLE_NOTICE_SUBTITLES = data.notices;
+        }
+        try {
+          if (typeof currentActiveDayType !== "undefined" && typeof getScheduleType === "function") {
+            currentActiveDayType = getScheduleType(new Date());
+          }
+        } catch (e2) { }
+        render();
+      } catch (e) { }
+    }
+    function pollDynamic() {
+      try {
+        fetch(dynBase + "shuttle-dynamic.json?t=" + Date.now(), { cache: "no-store" })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) { if (data) applyDynamic(data); })
+          .catch(function () { });
+      } catch (e) { }
+    }
+    pollDynamic();
+    setInterval(pollDynamic, 45000);
   } catch (e) { /* 静默降级，不影响网页其他功能 */ }
 })();
 // ===== SHUTTLE_ADMIN_NOTICE_END =====
